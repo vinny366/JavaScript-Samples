@@ -1,0 +1,107 @@
+body{font-size:62.5%}
+a{text-decoration:none;color:#0654BA}
+a:hover{color:#0654BA;text-decoration:underline}
+
+.main_wrapper{width:90%;margin:0 auto;}
+.clearFix{clear:both}
+
+.head{font:1.5em Arial;float:left;width:100%}
+.logo{font:0.8em Arial;display:inline-block}
+.logo >a,.logo_caption{display:inline-block}
+.logo >a{padding:2rem 0;vertical-align:-0.5rem}
+.logo_caption{margin:0 0 0 2rem}
+.top_menu,.top_menu ul,.top_menu ul li,.top_menu ul li p{display:inline-block}
+.top_menu{vertical-align:top}
+.top_menu,.top_menu ul{float:right}
+.top_menu>ul >li:nth-child(1),.top_menu>ul >li:nth-child(2){display:none;}
+.top_menu ul:nth-child(2) li{margin:0.5rem 0.5rem 0 0.5rem;border-right:0.1rem solid #BCC6CC;padding:0 1rem 0 0;}
+.top_menu ul:nth-child(2) li:last-child{border:none}
+.top_menu ul li{margin:0 0.5rem;position:relative}
+.top_menu ul li img{vertical-align:-0.3rem}
+.top_menu ul li p{margin:0 0 0 0.5rem}
+.user_menu ul{display:none;width:200%;border:0.1rem solid #CCC;padding:0.5rem 0;background:#FFF;}
+.user_menu li:nth-child(5) ul{width:400%}
+.user_menu li:nth-child(7) ul{width:120%}
+.top_menu ul li:hover ul{position:absolute;top:100%;left:0;display:block;z-index:2}
+.top_menu ul li:hover ul li{border:none}
+
+.search{font:1.5em Arial;padding:0 3rem;}
+.search figure{display:none;}
+.search_box{width:50%;border:1px solid #BCC6CC;outline:none;height:2rem}
+.search_categories{width:20%;height:2rem;margin:0 0.5rem}
+.category_button{display:none}
+.search_button{height:2rem;margin:0 1rem 0 0;background:#2B60DE;outline:none;border:none;color:#FFF;}
+.search_button_image{display:none}
+.search_caption{display:inline}
+
+.color_bar{width:100%;margin:0.5rem 0 0 0}
+.color_bar ul li{display:inline-block;height:0.2rem;width:25%}
+.color_bar ul li:nth-child(1){background:#A52A2A;}
+.color_bar ul li:nth-child(2){background:#1569C7;}
+.color_bar ul li:nth-child(3){background:#D4A017;}
+.color_bar ul li:nth-child(4){background:#41A317;}
+
+.deals_category{float:left;width:100%}
+.category_menu{font:1.7em Arial;display:inline-block;float:left;}
+.category_menu ul li div{display:none}
+.category_menu ul li{display:inline-block;padding:0.5rem 2rem;border:0.1rem solid #BCC6CC;margin:0 -0.2rem;position:relative;}
+.category_menu ul li:hover div{position:absolute;top:100%;left:0%;border:1px solid #CCC;background:#FFF;display:block;z-index:2}
+.category_sub_menu{column-count:3;-moz-column-count:3;-webkit-column-count:3;-ms-column-count:3;width:500%}
+.category_sub_menu ul{width:10rem;margin:0.5rem 0.5rem;display:inline-block}
+.category_sub_menu ul li:first-child{font:1em Arial;padding:0.2rem 0;}
+.category_sub_menu ul li{border:none;margin:0;padding:0;display:block;font: 0.7em Arial}
+
+.deals{float:right;}
+.deals_button{background:red;border:none;height:2rem;padding:0 2rem;color:#FFF}
+
+.main_menu{width:20%;float:left;margin:1rem 0;font:1.5em Arial;}
+.main_menu ul {padding:0 2rem 0 0.5rem}
+.main_menu ul li{padding:0.5rem 1.2rem;border-bottom:1px solid #CCC;}
+.main_menu ul li a:after{content:">";float:right}
+.deals_slider{margin:1rem 0;width:80%;float:left}
+.deals_slider img:nth-child(2){display:none}
+.deals_slider ul li a{display:block}
+.deals_slider ul:first-child li{display:none;}
+.deals_slider ul li:first-child{display:block;}
+.deals_slider ul:nth-child(2){text-align:center}
+.deals_slider ul:nth-child(2) li{display:inline-block}
+.deals_slider ul li button:hover{background:#CCC;color:#000}
+.deals_slider ul li button{border:none;outline:none;background:#2B60DE;color:#FFF}
+
+.main_gallery{font:1.7em Arial;text-align:center;border-top:0.5rem solid #CCC;border-bottom:0.5rem solid #CCC;padding:1rem 0;float:left;width:100%}
+.main_gallery button{border:none;outline:none;background:#2B60DE;color:#FFF;padding:0.15rem;-webkit-border-radius: 5px;
+-moz-border-radius: 5px;-ms-border-radius:5px;border-radius: 5px;margin:0 0 0.2rem 0}
+.deals_gallery,.trending_gallery{float:left}
+.deals_gallery {width:18%;margin-right:0.5rem}
+.deals_gallery h2{background:#86B819;color:#FFF;font:1.2em Arial}
+.deals_gallery ul li{border:0.1rem solid #CCC;}
+.deals_gallery img,.trending_gallery img{display:inline-block;width:100%}
+.trending_gallery{width:80%;float:left}
+.trending_gallery ul li{border:0.1rem solid #CCC;margin:0.3rem}
+
+.quick_menu ul{padding:0.5rem;font:1.2em Arial}
+.quick_menu ul p{width:1.2rem;height:1.2rem;display:inline-block;float:right;background:url(../images/arrow_btn_grey.png)}
+.quick_menu ul li:hover p{background:url(../images/arrow_btn_white.png)}
+.quick_menu ul li{padding:0.5rem;border:0.1rem solid #CCC}
+.quick_menu ul li:hover{background:#86B819;color:#FFF}
+.quick_menu ul li:hover a{color:#FFF}
+.quick_menu{display:none}
+
+.external_menu {width:90%;margin:1rem auto}
+.external_menu_button{display:none}
+.external_menu ul{display:inline-block;width:20%;vertical-align:top}
+.external_menu ul h3{font:1.5em Arial;display:block;padding:0 0 1rem 0;}
+.external_menu ul:nth-child(2){width:59%;}
+.external_menu ul:nth-child(2) h3{column-span: all;-webkit-column-span: all;-moz-column-span: all;-ms-column-span: all;-o-column-span: all; }
+.external_menu ul li{font:1.1em Arial;margin:0.5rem 0;}
+
+.footer_menu{font:1em Arial;margin:1rem 0 0.5rem 0}
+.footer_menu ul li{display:inline-block;padding:0.2rem 0.5rem;border-right:0.1rem solid #CCC}
+.footer_menu ul li:last-child{border:none}
+
+.foot{font:1em Arial}
+
+.foot p{display:inline;margin:2rem 0}
+
+
+.category_menu ul li div{position:absolute;top:100%;left:0%;border:1px solid #CCC;background:#FFF}

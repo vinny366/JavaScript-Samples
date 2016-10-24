@@ -1,0 +1,707 @@
+<!--<!DOCTYPE html>-->
+<html>
+<head>
+<title>Game Introduction</title>
+
+<style>
+
+body{color: #000; cursor:default; /*min-width: 900px; max-width: 900px; min-height: 600px;max-height: 600px;*/overflow: hidden;font-family: calibri; font-weight: bold; font-size: 16px;}
+
+#wrapperIntro{width: 900px; height: 600px;margin:0 auto;background-color: #A00F0F; position: relative; }
+
+#messageIntro{margin:0 auto; width: 300px; height: 200px; position: absolute;  background-color: #008287; border: 3px solid #000; color: #EEE; padding-top:10px; text-align: center; cursor: default; top:70px; left:300px;}
+
+button{height: 30px; width: 200px; background-color: #000000; display: block;color: #FFFFFF; border:3px solid #FFFFFF; text-align: center;margin-left:50px;margin-top:10px; cursor: pointer;}
+
+input{height: 20px; width: 200px; display: block;color: #FFFFFF; margin-left:50px;margin-top:0px; color: #000; }
+
+#InstructionsIntro{margin:0 auto; width: 600px; height: 240px; position: absolute;  background-color: #008287; border: 3px solid #000; color: #EEE; padding-top:10px; text-align: center; cursor: default; top:300px; left:150px;}
+
+p{ color: #EFEF00; font-size: 16px; margin-top: 0;}
+h3{margin-top: 0;}
+
+span{color: #222222;}
+
+</style>
+</head>
+
+<body>
+	<div id="wrapperIntro">
+	<div id="messageIntro">
+	<h1>MOUSE TACKLE</h1>
+	<button class="buttonIntro">BEGINNER MODE</button>
+	<button class="buttonIntro">CHALLENGER MODE</button>
+	</div>
+
+	<div id="InstructionsIntro">
+		<p><marquee>Tested only in Google Chrome</marquee></p>
+		<h3><u>INSTRUCTIONS</u></h3>
+		<p>1. This is the game to test [<span>Usual Practice Vs Current Concentration</span>]</p>
+		<p>2. Hi Player, Enter your Name when You are Prompted</p>
+		<p>3. Start playing by moving the mouse in opposite Direction</p>
+		<p>4. You win when you reach Finish Line.</p>
+		<p>5. Scores will differ based on the path you traverse and the mode You Choose</p>
+	</div>
+	</div>
+
+</body>
+<script type="text/javascript">
+/********************************************************************/
+/*************Game Name - Mouse Tackle******************************/
+/*************Author Name - Venkata Vineel************************/
+/*************Author Department - Cognizant Interactive***********/
+/*************Author ID - 358339*********************************/
+/****************Author Organisation - Cognizant****************/
+/*************Developed using************************/
+/******************HTML4****************************/
+/******************CSS2****************************/
+/****************Javascript***********************/
+/************Tested only in Google Chrome********/
+/*****LocalStorage[HTML5] is used since Google Chrome does not support Cookies.********/
+/*************LocalStorage is used only to********************************************/
+/*******1. In which level of Game the User Currently Plays**************************/
+/**********************************************************************************/
+
+var gameName="MOUSE TACKLE"
+,
+authorName="VENKATA VINEEL"
+,
+authorId="358339"
+,
+authorDepartment="CI"
+,
+wrapperElement
+,
+tableElement
+,
+rowCreation
+,
+cellCreation
+,
+cellTextNode
+,
+divCreation
+,
+gameBlock
+,
+virtualSuccessLine=14
+,
+virtualStartLine=83
+,
+noOfRows=8
+,
+noOfCells=12
+,
+cursorOffset=32
+,
+beginGame=false
+,
+initialClick=0
+,
+gameLevel=1
+,
+buttonElement
+,
+buttonText
+,
+messageBox
+,
+promptBox
+,
+closeButtonElement
+,
+newGameElement
+,
+nextLevelElement
+,
+okButtonElement
+,
+playerName=""
+,
+okButtonPressed=false
+,
+bar
+,
+mode=''
+,
+defaultHeight=663
+,
+defaultWidth=1366
+,
+gameWindowOpen=false
+,
+k=0
+,
+x=0
+,
+y=0
+,
+min=0
+,
+max=0
+,
+score=0
+,
+RandomCellsInRow=0
+,
+topLeftIndex=0
+,
+topRightIndex=0
+,
+bottomLeftIndex=0
+,
+bottomRightIndex=0
+,
+wrapperWidth=900
+,
+wrapperHeight=600
+,
+mouseOffsetLeft=27
+,
+mouseOffsetTop=70
+,
+interval
+,
+bouncerTop
+,
+interval1
+,
+bouncerBottom;
+
+var blockArray=new Array();
+var topLeft=new Array();
+var topRight=new Array();
+var bottomLeft=new Array();
+var bottomRight=new Array();
+var centerBlocks=new Array("42","43","54","55");
+var backupBlocks=new Array("23","74");
+var exceptionCasePath=new Array("30","41","40");
+var startFinishNeighbourBlock=new Array("27","70");
+var exceptionCasePathLevel2=new Array("32","45","52","63"); //bottomRight RandomBlocks
+
+var ball=document.getElementsByClassName('bounce');
+
+function blockTractionControl(e){
+	if(beginGame){
+		gameBlock.style.display="block";
+
+		gameBlock.style.left=window.innerWidth-e.clientX-((window.innerWidth-wrapperWidth))-5+"px";
+		gameBlock.style.top=window.innerHeight-e.clientY-((window.innerHeight-wrapperHeight))-5+"px";
+		
+		messageBox=document.getElementsByClassName("message")[0];
+		playerName=document.getElementById('playerName').value;
+		
+		if(e.target.className=="boundary"){
+			score++;
+		}
+		
+		if(e.target.id==virtualSuccessLine){//Start Line (Top Left Boundary)
+		messageBox.innerHTML=" <h1>MOUSE TACKLING</h1>"+playerName+" Won<br>"+"Level: "+ gameModeLS+"<br>Score: "+score;
+		
+		messageBox.style.left=(defaultWidth/2)-400+"px";
+		messageBox.style.top=(defaultHeight/2)-100+"px";
+		messageBox.style.display="block";
+		
+		buttonElement=document.createElement('button');
+		buttonText=document.createTextNode('New Game');
+		buttonElement.appendChild(buttonText);
+		buttonElement.setAttribute('class','newGameButton');
+		messageBox.appendChild(buttonElement);
+		
+		buttonElement=document.createElement('button');
+		buttonText=document.createTextNode('Close');
+		buttonElement.appendChild(buttonText);
+		buttonElement.appendChild(buttonText);
+		buttonElement.setAttribute('class','closeButton');
+		messageBox.appendChild(buttonElement);
+	
+		removeHandlers(e);
+
+		closeButtonElement=document.getElementsByClassName('closeButton')[0];
+		newGameElement=document.getElementsByClassName('newGameButton')[0];
+		nextLevelElement=document.getElementsByClassName('nextLevelButton')[0];
+
+		closeButtonElement.addEventListener('click',closeButtonHandler,true);
+		newGameElement.addEventListener('click',newGameHandler,true);
+		
+		}
+		
+		else if((e.offsetX<=mouseOffsetLeft && document.getElementById((parseInt(e.target.id))-1).className=="nonBoundary") ||(e.offsetX>=mouseOffsetTop && document.getElementById((parseInt(e.target.id))+1).className=="nonBoundary") ||(e.offsetY<=mouseOffsetLeft && document.getElementById((parseInt(e.target.id))-12).className=="nonBoundary")||(e.offsetY>=mouseOffsetTop && document.getElementById((parseInt(e.target.id))+12).className=="nonBoundary") ){
+		//Right Left Bottom Top
+		failureMessageChallengerMode();
+		if(gameModeLS=="CHALLENGER MODE"){
+			clearInterval(interval);
+			
+			for(var i=0;i<ball.length;i++){
+			document.getElementsByClassName('bounce')[i].style.display="none";
+			}
+		}
+		removeHandlers(e);
+		}
+	}
+}
+
+
+/****************blockTractionControl Function Ends (for moving the block over the way)**************************/
+
+function removeHandlers(e){
+	//document.body.style.cursor="default";
+	document.body.style.cursor="none";
+	tableElement.removeEventListener('mousemove',blockTractionControl,true);
+	document.removeEventListener('click',function(){},true);
+	document.getElementById(virtualStartLine).removeEventListener("click",clickInitializer,true);
+}
+
+/***************removeHandlers Function Ends (removes Active Listeners)************************************/
+
+function clickBlockers(e){
+	/**********Mouse Action Prevention*******************/
+	if (e.wheelDelta) {
+        e.wheelDelta=0;
+    } 
+    else if (e.detail) {
+        e.detail=0;
+    }
+	document.oncontextmenu = function (e) {
+		e.preventDefault();
+   		return false;
+	}
+	if(e.which===1 ||e.which===2||e.which===3){
+        e.preventDefault();
+	} 
+	/**************Key Board Action Prevention*************/
+	document.addEventListener('keydown',function(e){
+		if(e.which==123){
+			e.preventDefault();
+		}
+	},true);  
+}
+	
+/*******************clickBlockers Function Ends(Default Mouse abd Keyboard actions are disabled)****************/
+
+function closeButtonHandler(){
+	window.close();
+}
+
+/***************closeButtonHandler function ends*************/
+
+function newGameHandler(){
+	location.reload();
+}
+
+/***************newGameHandler function ends*************/
+
+function bounceUp(e){
+	k=0;
+	interval=setInterval(function(e){
+	if(bouncerBottom>0){
+		bouncerBottom-=10;
+		ball[0].style.left="100px";
+		ball[1].style.left="200px";
+		ball[2].style.left="300px";
+		ball[3].style.left="400px";
+		ball[4].style.left="500px";
+
+		ball[0].style.top=(bouncerBottom)+"px";
+		ball[1].style.top=(bouncerBottom)+"px";
+		ball[2].style.top=(bouncerBottom)+"px";
+		ball[3].style.top=(bouncerBottom)+"px";
+		ball[4].style.top=(bouncerBottom)+"px";
+		
+	if((parseInt(ball[0].style.top)>=parseInt(gameBlock.style.top)-30 && parseInt(ball[0].style.top)<=parseInt(gameBlock.style.top)+32 && parseInt(ball[0].style.left)>=parseInt(gameBlock.style.left)-30 && parseInt(ball[0].style.left)<=parseInt(gameBlock.style.left)+30) ||
+		(parseInt(ball[1].style.top)>=parseInt(gameBlock.style.top)-30 && parseInt(ball[1].style.top)<=parseInt(gameBlock.style.top)+32 && parseInt(ball[1].style.left)>=parseInt(gameBlock.style.left)-30 && parseInt(ball[1].style.left)<=parseInt(gameBlock.style.left)+30) ||
+		(parseInt(ball[2].style.top)>=parseInt(gameBlock.style.top)-30 && parseInt(ball[2].style.top)<=parseInt(gameBlock.style.top)+32 && parseInt(ball[2].style.left)>=parseInt(gameBlock.style.left)-30 && parseInt(ball[2].style.left)<=parseInt(gameBlock.style.left)+30) ||
+		(parseInt(ball[3].style.top)>=parseInt(gameBlock.style.top)-30 && parseInt(ball[3].style.top)<=parseInt(gameBlock.style.top)+32 && parseInt(ball[3].style.left)>=parseInt(gameBlock.style.left)-30 && parseInt(ball[3].style.left)<=parseInt(gameBlock.style.left)+30) ||
+		(parseInt(ball[4].style.top)>=parseInt(gameBlock.style.top)-30 && parseInt(ball[4].style.top)<=parseInt(gameBlock.style.top)+32 && parseInt(ball[4].style.left)>=parseInt(gameBlock.style.left)-30 && parseInt(ball[4].style.left)<=parseInt(gameBlock.style.left)+30) ){
+			clearInterval(interval);
+			failureMessageChallengerMode();
+			tableElement.removeEventListener('mousemove',blockTractionControl,true);
+			}	
+	}
+	else{
+		clearInterval(interval);
+		bounce(e);
+		}
+	},20);
+}
+
+/*********************bounceUp function ends**************************************/
+
+function failureMessageChallengerMode(){
+	messageBox.innerHTML=" <h1>MOUSE TACKLING</h1>"+playerName+" Lost<br>"+"Level: "+ gameModeLS+"<br>Score: "+score;
+		
+		messageBox.style.left=(defaultWidth/2)-400+"px";
+		messageBox.style.top=(defaultHeight/2)-100+"px";
+		messageBox.style.display="block";
+		
+		buttonElement=document.createElement('button');
+		buttonText=document.createTextNode('New Game');
+		buttonElement.appendChild(buttonText);
+		buttonElement.setAttribute('class','newGameButton');
+		messageBox.appendChild(buttonElement);
+		
+		buttonElement=document.createElement('button');
+		buttonText=document.createTextNode('Close');
+		buttonElement.appendChild(buttonText);
+		buttonElement.setAttribute('class','closeButton');
+		messageBox.appendChild(buttonElement);
+
+		closeButtonElement=document.getElementsByClassName('closeButton')[0];
+		closeButtonElement.addEventListener('click',closeButtonHandler,true);
+		newGameElement=document.getElementsByClassName('newGameButton')[0];
+		newGameElement.addEventListener('click',newGameHandler,true);
+
+}
+
+/***************************failure message function ends************************************************************/
+
+function bounce(e){
+	interval=setInterval(function(e){
+	
+	if(bouncerBottom<(wrapperHeight-30)){
+	k=k+10;
+	
+	ball[0].style.left="200px";
+	ball[1].style.left="350px";
+	ball[2].style.left="500px";
+	ball[3].style.left="650px";
+	ball[4].style.left="800px";
+
+	ball[0].style.top=(parseInt(window.getComputedStyle(ball[0],null).getPropertyValue("bottom"))+(k))+"px";
+	ball[1].style.top=(parseInt(window.getComputedStyle(ball[1],null).getPropertyValue("bottom"))+(k))+"px";
+	ball[2].style.top=(parseInt(window.getComputedStyle(ball[2],null).getPropertyValue("bottom"))+(k))+"px";
+	ball[3].style.top=(parseInt(window.getComputedStyle(ball[3],null).getPropertyValue("bottom"))+(k))+"px";
+	ball[4].style.top=(parseInt(window.getComputedStyle(ball[4],null).getPropertyValue("bottom"))+(k))+"px";
+	
+	bouncerBottom=bouncerBottom+10;
+			if((parseInt(ball[0].style.top)>=parseInt(gameBlock.style.top)-30 && parseInt(ball[0].style.top)<=parseInt(gameBlock.style.top)+32 && parseInt(ball[0].style.left)>=parseInt(gameBlock.style.left)-30 && parseInt(ball[0].style.left)<=parseInt(gameBlock.style.left)+30) ||
+				(parseInt(ball[1].style.top)>=parseInt(gameBlock.style.top)-30 && parseInt(ball[1].style.top)<=parseInt(gameBlock.style.top)+32 && parseInt(ball[1].style.left)>=parseInt(gameBlock.style.left)-30 && parseInt(ball[1].style.left)<=parseInt(gameBlock.style.left)+30) ||
+				(parseInt(ball[2].style.top)>=parseInt(gameBlock.style.top)-30 && parseInt(ball[2].style.top)<=parseInt(gameBlock.style.top)+32 && parseInt(ball[2].style.left)>=parseInt(gameBlock.style.left)-30 && parseInt(ball[2].style.left)<=parseInt(gameBlock.style.left)+30) ||
+				(parseInt(ball[3].style.top)>=parseInt(gameBlock.style.top)-30 && parseInt(ball[3].style.top)<=parseInt(gameBlock.style.top)+32 && parseInt(ball[3].style.left)>=parseInt(gameBlock.style.left)-30 && parseInt(ball[3].style.left)<=parseInt(gameBlock.style.left)+30) ||
+				(parseInt(ball[4].style.top)>=parseInt(gameBlock.style.top)-30 && parseInt(ball[4].style.top)<=parseInt(gameBlock.style.top)+32 && parseInt(ball[4].style.left)>=parseInt(gameBlock.style.left)-30 && parseInt(ball[4].style.left)<=parseInt(gameBlock.style.left)+30) ){
+			clearInterval(interval);
+			failureMessageChallengerMode();
+			tableElement.removeEventListener('mousemove',blockTractionControl,true);
+				}
+			}
+			else{
+				clearInterval(interval);
+				bounceUp(e);
+			}
+	},20);
+}
+
+/*****************bounceUp function ends***********************/
+
+function clickInitializer(e){
+			beginGame=true;
+			//document.body.style.cursor="none";
+			
+			initialClick++;
+			
+			if(gameModeLS=="BEGINNER MODE"){
+				randomChooseTopLeft();	
+			}
+			else if(gameModeLS=="CHALLENGER MODE"){
+				randomChooseBottomRight();
+				for(var i=0;i<ball.length;i++){
+					ball[i].style.display="block";
+				}
+				bouncerBottom=parseInt(window.getComputedStyle(ball[0],null).getPropertyValue("bottom"));
+				bounce();
+			}
+			
+			/****************center Blocks for the Game has to be enabled for path setting from one side to other side*********************/
+			document.getElementById(centerBlocks[0]).style.backgroundColor="#F1F1F1";
+			document.getElementById(centerBlocks[1]).style.backgroundColor="#F1F1F1";
+			document.getElementById(centerBlocks[2]).style.backgroundColor="#F1F1F1";
+			document.getElementById(centerBlocks[3]).style.backgroundColor="#F1F1F1"; 
+			document.getElementById(centerBlocks[0]).setAttribute('class','boundary');
+			document.getElementById(centerBlocks[1]).setAttribute('class','boundary');
+			document.getElementById(centerBlocks[2]).setAttribute('class','boundary');
+			document.getElementById(centerBlocks[3]).setAttribute('class','boundary');
+			/************Extra Path Blocking Blocks*************************/
+			document.getElementById(backupBlocks[0]).style.backgroundColor="#A0A000";		
+			document.getElementById(backupBlocks[0]).setAttribute('class','nonBoundary');	
+			document.getElementById(backupBlocks[1]).style.backgroundColor="#A0A000";		
+			document.getElementById(backupBlocks[1]).setAttribute('class','nonBoundary');
+			document.getElementById(startFinishNeighbourBlock[0]).style.backgroundColor="#F1F1F1"; 
+			document.getElementById(startFinishNeighbourBlock[0]).setAttribute('class','boundary');
+			document.getElementById(startFinishNeighbourBlock[1]).style.backgroundColor="#F1F1F1"; 
+			document.getElementById(startFinishNeighbourBlock[1]).setAttribute('class','boundary');
+			
+			/***********************Exceptional Case path Setting*********************/
+			if((document.getElementById(exceptionCasePath[0]).className=="nonBoundary" && document.getElementById(exceptionCasePath[1]).className=="nonBoundary")||(document.getElementById(exceptionCasePath[0]).className=="nonBoundary" && document.getElementById(exceptionCasePath[2]).className=="nonBoundary")){
+			document.getElementById(backupBlocks[0]).style.backgroundColor="#F1F1F1";		
+			document.getElementById(backupBlocks[0]).setAttribute('class','boundary');	
+			document.getElementById(backupBlocks[1]).style.backgroundColor="#F1F1F1";		
+			document.getElementById(backupBlocks[1]).setAttribute('class','boundary');
+			}
+			if((document.getElementById(exceptionCasePathLevel2[0]).className=="nonBoundary" && document.getElementById(exceptionCasePathLevel2[1]).className=="nonBoundary")||(document.getElementById(exceptionCasePathLevel2[2]).className=="nonBoundary" && document.getElementById(exceptionCasePathLevel2[3]).className=="nonBoundary") && gameModeLS=="CHALLENGER MODE"){
+			document.getElementById(exceptionCasePathLevel2[1]).style.backgroundColor="#F1F1F1";		
+			document.getElementById(exceptionCasePathLevel2[1]).setAttribute('class','boundary');	
+			document.getElementById(exceptionCasePathLevel2[2]).style.backgroundColor="#F1F1F1";		
+			document.getElementById(exceptionCasePathLevel2[2]).setAttribute('class','boundary');
+			}
+			else{
+			document.getElementById(backupBlocks[0]).style.backgroundColor="#A0A000";		
+			document.getElementById(backupBlocks[0]).setAttribute('class','nonBoundary');	
+			document.getElementById(backupBlocks[1]).style.backgroundColor="#A0A000";		
+			document.getElementById(backupBlocks[1]).setAttribute('class','nonBoundary');
+			}
+			document.getElementById(virtualStartLine).style.backgroundColor="#DE4AAD";
+			document.getElementById(virtualStartLine).style.color="#EEEEEE";			
+			document.getElementById(virtualStartLine).innerHTML="Finish Line";
+}
+
+/*************************clickInitializer Function Ends (initializes game)**************************************************/
+
+function listeners(e){
+	if(wrapperElement.addEventListener)
+	{
+		document.getElementById(virtualStartLine).addEventListener("click",clickInitializer,true);
+		tableElement.addEventListener('mousemove',blockTractionControl,true);
+		document.addEventListener('click',clickBlockers,false);
+		document.addEventListener('dblclick',clickBlockers,false);
+		document.addEventListener('mousedown',clickBlockers,false);
+		document.addEventListener('mouseup',clickBlockers,false);
+		document.addEventListener('mousewheel',clickBlockers,false);
+		document.addEventListener('DOMMouseScroll',clickBlockers,false);	
+	}
+}
+
+/********************listeners function Ends************************************************/
+
+function gameInfo(){
+	for(var i=0;i<=noOfCells-1;i++){
+		if(i<=4){
+			document.getElementById(i+1).style.color="#000000";
+		}
+		else{
+			document.getElementById(i+1).style.color="#7200AC";		
+		}
+		document.getElementById(i+1).innerHTML=gameName[i];
+		document.getElementById(i+1).style.textAlign="center";
+		
+		document.getElementById(i+1).style.fontSize="24px";
+	}
+	var k=0;
+	for(var i=(noOfRows-1)*noOfCells+1;i<=(noOfRows*noOfCells);i++){
+		if(k<=authorName.length-1){
+			if(k<=4){
+				document.getElementById(i).style.color="#7200AC";
+			}
+			else if(k>=5 && k<=9){
+				document.getElementById(i).style.color="#000000";	
+			}
+			else{
+				document.getElementById(i).style.color="#FFFFFF";
+			}
+
+			document.getElementById(i).innerHTML=authorName[k];
+			document.getElementById(i).style.textAlign="center";
+			document.getElementById(i).style.fontSize="24px";
+			k++;
+		}
+	}
+	k=0;
+	for(var i=(noOfRows-5)*noOfCells+1;i<=noOfRows*noOfCells;i++){
+		if(k<=authorDepartment.length-1 && i%noOfCells==1){
+			document.getElementById(i).innerHTML=authorDepartment[k];
+			document.getElementById(i).style.textAlign="center";
+			document.getElementById(i).style.color="#000000";
+			document.getElementById(i).style.fontSize="24px";
+			k++;
+		}
+	}
+	k=0;
+	for(var i=(noOfRows-6)*noOfCells;i<=noOfRows*noOfCells;i++){
+		if(k<=authorId.length-1 && i%noOfCells==0){
+			document.getElementById(i).innerHTML=authorId[k];
+			document.getElementById(i).style.textAlign="center";
+			document.getElementById(i).style.color="#000000";
+			document.getElementById(i).style.fontSize="24px";
+			k++;
+		}
+	}
+}
+
+/******************gameInfo Function Ends******************************/
+
+function okButtonHandler(){
+	okButtonPressed=true;
+	promptBox.style.display="none";
+	renderDynamically();
+}
+
+/***************************ok Button Function ends***********************/
+
+function renderDynamically(){
+	if(okButtonPressed){
+	var k=1;
+	wrapperElement=document.getElementById('wrapper');
+	tableElement=document.getElementById('gameBlocks');
+
+	for(var i=0;i<noOfRows;i++)
+	{
+	rowCreation=document.createElement('tr');
+	rowCreation.style.border="none";		
+
+		for(var j=0;j<noOfCells;j++)
+		{
+			cellCreation=document.createElement('td');
+			cellCreation.setAttribute('id',k);
+			cellCreation.style.border="none";	
+			rowCreation.appendChild(cellCreation);
+			rowCreation.setAttribute('id',i);
+			cellTextNode=document.createTextNode(k);
+			if(k==virtualStartLine){
+				cellTextNode=document.createTextNode("Click to Begin");
+				cellCreation.appendChild(cellTextNode);
+		}
+		k++;
+		  /**************************************************/
+		 /*****cellCreation.appendChild(cellTextNode);******/
+		/**************************************************/
+		if((i==1 && j>=1 && j<=noOfCells-2) || (i==noOfRows-2 && j>=1 && j<=noOfCells-2) || (j==1 && i>=1 && i<=noOfRows-2) || (j==noOfCells-2 && i>=2 && i<=noOfRows-2))
+		{
+			cellCreation.style.backgroundColor="#F1F1F1";
+			cellCreation.setAttribute('class','boundary');
+		}
+		else
+		{
+			cellCreation.style.backgroundColor="#A0A000";		
+			cellCreation.setAttribute('class','nonBoundary');	
+		}
+		gameBlock=document.getElementById('movingBlock');
+	}
+tableElement.appendChild(rowCreation);
+}
+
+gameInfo();
+
+for(var i=2;i<=noOfRows-3;i++){
+	for(var j=((i)*noOfCells)+1;j<=((i)*noOfCells)+noOfCells-1;j++){
+		if(j%noOfCells>2 && j%noOfCells<=noOfCells-6 && i>=2 && i<=3 ){
+			topLeft[topLeftIndex]=j;
+			topLeftIndex++;
+		}
+		if(j%noOfCells>noOfCells-6 && j%noOfCells<=noOfCells-2 && i>=2 && i<=3 ){
+			topRight[topRightIndex]=j;
+			topRightIndex++;
+		}
+		if(j%noOfCells>2 && j%noOfCells<=noOfCells-6 && i>=4 && i<=5 ){
+			bottomLeft[bottomLeftIndex]=j;
+			bottomLeftIndex++;
+		}
+		if(j%noOfCells>noOfCells-6 && j%noOfCells<=noOfCells-2 && i>=4 && i<=5 ){
+			bottomRight[bottomRightIndex]=j;
+			bottomRightIndex++;
+		}
+
+	}
+}
+
+listeners();
+}
+}
+
+/***************************renderDynamically Function ends******************************************/
+
+function startGame(e){
+	var url = window.location.pathname;
+	var filename = url.substring(url.lastIndexOf('/')+1);
+	var buttonTags=document.getElementsByClassName('buttonIntro');
+	   
+	clickBlockers(e);
+
+		for(var i=0;i<buttonTags.length;i++)
+		{
+			buttonTags[i].addEventListener('click',function(e){
+				if(e.target.innerHTML=="BEGINNER MODE"){
+				mode="BEGINNER MODE";
+				window.open("index1.html","_blank","location=0, resizable=0, toolbar=no, scrollbars=0, menubar=no, status=no, directories=no, width=900px, height=600px, left=50px, top=50px");
+				}
+				else if(e.target.innerHTML=="CHALLENGER MODE"){
+					mode="CHALLENGER MODE"; 
+					window.open("index1.html","_blank","location=0, resizable=0, toolbar=no, scrollbars=0, menubar=no, status=no, directories=no, width=900px, height=600px, left=50px, top=50px");
+				}
+				localStorage.setItem('gameMode',mode);
+			},true);
+
+		}
+		if(filename=="index1.html"){
+		gameModeLS=localStorage.getItem('gameMode');
+		
+		promptBox=document.getElementsByClassName("prompt")[0];
+		promptBox.style.left=(defaultWidth/2)-400+"px";
+		promptBox.style.top=(defaultHeight/2)-160+"px";
+		promptBox.style.display="block";
+		promptBox.innerHTML="<h3>Enter Player Name</h3><br><input type='text' id='playerName'><br>"
+		
+		buttonElement=document.createElement('button');
+		buttonText=document.createTextNode('OK');
+		buttonElement.appendChild(buttonText);
+		buttonElement.setAttribute('class','okButton');
+		
+		promptBox.appendChild(buttonElement);
+		okButtonElement=document.getElementsByClassName('okButton')[0];
+		okButtonElement.addEventListener('click',okButtonHandler,true);
+		playerName=document.getElementById('playerName').value;
+	}
+		
+}
+
+/**********************startGame Function ends***************************************/
+
+function randomChooseTopLeft(){
+var indexVal=0;
+	if(initialClick==1){
+	for(var i=1;i<=5;i++){
+		min=0,max=topLeft.length-1;
+		RandomCellsInRow= Math.floor(Math.random() * (max - min + 1)) + min;
+		
+		document.getElementById(topLeft[RandomCellsInRow]).style.backgroundColor="#F1F1F1";
+		document.getElementById(topLeft[RandomCellsInRow]).setAttribute('class','boundary');
+		indexVal=topLeft.indexOf(RandomCellsInRow);
+		topLeft.splice(RandomCellsInRow,1);
+		
+		document.getElementById(bottomRight[(bottomRight.length-1)-RandomCellsInRow]).style.backgroundColor="#F1F1F1";
+		document.getElementById(bottomRight[(bottomRight.length-1)-RandomCellsInRow]).setAttribute('class','boundary');
+		indexVal=bottomRight.indexOf((bottomRight.length-1)-RandomCellsInRow);
+		bottomRight.splice((bottomRight.length-1)-RandomCellsInRow,1);
+		
+		}
+	}
+}
+
+/**********************randomChooseTopLeft Function Ends**************************************/
+
+function randomChooseBottomRight(){
+var indexVal=0;
+	if(initialClick==1){
+	for(var i=1;i<=5;i++){
+		min=0,max=topRight.length-1;
+		RandomCellsInRow= Math.floor(Math.random() * (max - min + 1)) + min;
+		
+		document.getElementById(topRight[RandomCellsInRow]).style.backgroundColor="#F1F1F1";
+		document.getElementById(topRight[RandomCellsInRow]).setAttribute('class','boundary');
+		indexVal=topRight.indexOf(RandomCellsInRow);
+		topRight.splice(RandomCellsInRow,1);
+		
+		document.getElementById(bottomLeft[(bottomLeft.length-1)-RandomCellsInRow]).style.backgroundColor="#F1F1F1";
+		document.getElementById(bottomLeft[(bottomLeft.length-1)-RandomCellsInRow]).setAttribute('class','boundary');
+		indexVal=bottomLeft.indexOf((bottomLeft.length-1)-RandomCellsInRow);
+		bottomLeft.splice((bottomLeft.length-1)-RandomCellsInRow,1);
+		
+		}
+	}
+}
+
+/***********************randomChooseBottomRight Function Ends********************************/
+
+window.onload=startGame;
+
+/*****************End of Scripting**************************/
+</script>
+</html>

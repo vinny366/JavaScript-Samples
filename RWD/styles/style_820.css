@@ -1,0 +1,26 @@
+body{font-size:55%;}
+
+.logo{display:block}
+.top_menu{float:left}
+.head{margin:1rem 0;}
+.logo >a{padding:0 0 0.5rem 0;}
+.main_menu{display:none}
+.search{padding:0}
+.search figure{display:none;}
+.deals_slider{width:100%;text-align:center}
+.deals_slider ul {width:100%}
+.footer_menu ul li:nth-child(2){display:none}
+.main_gallery{font:1.5em Arial}
+.top_menu {margin-bottom: 1rem;}
+
+.trending_gallery1,.trending_gallery2,.trending_gallery3{float:left;width:23%;margin:0.5rem}
+.trending_gallery4 ul li{float:left}
+
+
+.trending_gallery ul li button{font:1em Arial}
+.trending_gallery p{display:none}
+
+.external_menu_button{display:block;position:fixed;bottom:0;right:2rem}
+.external_menu ul{display:inline-block}
+.external_menu_list{display:none;}
+.external_menu{position:fixed;bottom:-19px;background:#FFF;padding:0.5rem;border:0.1rem solid #CCC}

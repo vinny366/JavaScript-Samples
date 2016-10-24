@@ -1,0 +1,61 @@
+body{font-size:62.5%;}
+
+.logo{float:left}
+.logo img{width:70%;}
+.logo_caption{display:none}
+.top_menu,.top_menu ul{float:none}
+.top_menu>ul li:nth-child(1),.top_menu>ul li:nth-child(2){display:inline-block;}
+.top_menu ul:nth-child(2){display:none}
+.top_menu ul li img{width:100%}
+.top_menu ul li p{display:none}
+
+.user_menu{font:0.7em Arial}
+
+.search{background:#86B819;}
+.search figure{display:inline-block;margin:0.3rem;vertical-align:middle;width:10%;text-align:center;}
+.search_button{display:none}
+.search_button_image{ display:inline-block;background: url('../images/search_icon.png') no-repeat center;height:2rem;width:2rem;border:none;vertical-align:middle}
+.search_box{margin:0.3rem;height:1.3rem;width:50%}
+.search_categories,.deals_button{display:none}
+
+.color_bar{display:none}
+
+.head{margin:0.5rem 0;}
+.logo >a{padding:0 0 0.5rem 0;}
+.main_menu{display:none}
+.search{padding:0}
+.category_button{display:inline-block;background: url('../images/drop_down.png') no-repeat center;height:2rem;width:2rem;outline:none;border:none;vertical-align: middle;}
+.search_caption{display:none}
+
+.category_menu ul li{display:none}
+.category_menu ul li a:after{content:">";float:right}
+.category_menu ul li:hover div{display:none}
+
+
+.deals_slider{width:100%;text-align:center;}
+.deals_slider img:nth-child(1){display:none}
+.deals_slider img:nth-child(2){display:inline}
+.deals_slider ul {width:60%;margin:0 auto}
+.deals_slide ul li{width:200px;overflow:hidden}
+
+.main_gallery{font:1.3em Arial}
+.deals_gallery{display:none}
+.trending_gallery{margin:0 auto;}
+.trending_gallery ul li{float:left;height:120px;overflow:hidden}
+.trending_gallery img{height:54%}
+
+.quick_menu{display:block;}
+.external_menu{display:none}
+
+.foot p{display:none}
+.foot p:nth-child(3){display:block;}
+.footer_menu ul{text-align:center}
+.footer_menu ul li:nth-child(2),.footer_menu ul li:nth-child(3),.footer_menu ul li:nth-child(4){display:none}
+
+
+
+.top_menu{position:relative}
+.user_menu{position:absolute;top:100%;border:0.1rem solid #CCC;z-index:2;background:#FFF}
+.top_menu ul:nth-child(2) li{display:block;border-bottom:0.1rem solid #CCC;border-right:none}
+.category_menu{display:block;float:none;margin:0.5rem}
+.category_menu ul li{position:none;text-align:center}

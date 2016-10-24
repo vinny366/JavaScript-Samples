@@ -1,0 +1,31 @@
+body{font-size:55%;}
+
+.logo{display:block}
+.top_menu{float:left;margin-bottom: 1rem;}
+.head{margin:1rem 0;}
+.logo >a{padding:0 0 0.5rem 0;}
+.main_menu{display:none}
+.search{padding:0}
+.search figure{display:none;}
+.search_caption{display:none}
+
+.top_menu ul li:hover ul{display:none} 
+.category_menu ul li:hover div{display:none}
+.category_menu ul li{display:none}
+.category_menu ul li:first-child{display:inline-block}
+
+.deals_slider{width:100%;text-align:center}
+.deals_slider ul {width:100%}
+
+.main_gallery{font:1.3em Arial}
+/*.trending_gallery{column-count:3;-moz-column-count:3;-webkit-column-count:3;-ms-column-count:3;}*/
+.trending_gallery1,.trending_gallery2,.trending_gallery3,.trending_gallery4{float:left;width:23%;margin:0.5rem}
+
+
+.external_menu_button{display:block;position:fixed;bottom:0;right:2rem;padding:0.5rem;background:#FFF;border:0.1rem solid #CCC}
+.external_menu{margin:0 auto;position:fixed;bottom:0rem;background:#FFF;;border:0.1rem solid #CCC}
+.external_menu_list{display:none;}
+.external_menu{position:fixed;bottom:-19px;background:#FFF;padding:0.5rem;border:0.1rem solid #CCC}
+
+.footer_menu ul{text-align:center}
+.footer_menu ul li:nth-child(2),.footer_menu ul li:nth-child(3),.footer_menu ul li:nth-child(4){display:none}

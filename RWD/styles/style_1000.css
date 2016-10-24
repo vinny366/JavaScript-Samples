@@ -1,0 +1,11 @@
+body{font-size:55%;}
+.main_menu{width:25%;}
+.deals_slider{width:75%;}
+.search figure{display:none;}
+
+.trending_gallery p{display:none}
+
+.external_menu_button{display:block;position:fixed;bottom:0;right:2.5rem;padding:0.5rem;background:#FFF;border:0.1rem solid #CCC}
+.external_menu{margin:0 auto;position:fixed;bottom:0rem;background:#FFF;;border:0.1rem solid #CCC}
+.external_menu_list{display:none;}
+.external_menu{position:fixed;bottom:-19px;background:#FFF;padding:0.5rem;border:0.1rem solid #CCC}
