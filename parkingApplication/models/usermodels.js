@@ -1,22 +1,20 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var db = mongoose.connect('mongodb://localhost/ParkingApplication');
 
 var UserSchema = Schema({
 	displayName :{
 		type: String
-	},
-	image : {
-		type : String
-	},
-	email : {
-		type :String
-	},
-	google :{
-		type: Object
-	},
-	facebook:{
-		type:Object
-	}
+}
 
-	module.exports = mongoose.model('User', UserSchema);
-})
+});
+
+//create schema and insert
+	var something = db.model('User', UserSchema);
+    var someVar = new Something({ displayName: 'sampath' });
+    someVar.save(function (err) {
+      if (err) // ...
+      console.log('meow');
+    });
+
+
